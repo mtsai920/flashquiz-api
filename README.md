@@ -1,3 +1,3 @@
 ## FlashQuiz
 
-FlashQuiz is a flashcard studying application. It is currently in-progress. 
+FlashQuiz is a flashcard studying application. It is currently in progress. 
