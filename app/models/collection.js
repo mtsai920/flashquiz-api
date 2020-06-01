@@ -3,12 +3,17 @@ const mongoose = require('mongoose')
 const collectionSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   description: {
     type: String,
     required: true
   },
+  card: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Card'
+  }],
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

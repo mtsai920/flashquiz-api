@@ -5,6 +5,7 @@ const passport = require('passport')
 
 // pull in Mongoose model for cards
 const Card = require('../models/card')
+const Collection = require('../models/collection')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -59,13 +60,24 @@ router.get('/cards/:id', requireToken, (req, res, next) => {
 // POST /examples
 router.post('/cards', requireToken, (req, res, next) => {
   // set owner of new example to be current user
+  console.log(req, 'req')
   req.body.card.owner = req.user.id
-
+  let cardId = null
   Card.create(req.body.card)
     // respond to succesful `create` with status 201 and JSON of new "card"
     .then(card => {
-      res.status(201).json({ card: card.toObject() })
+      // set cardId for later use
+      cardId = card.id
+      console.log('cardId', cardId)
+      console.log(req.body)
+      return Collection.findById(req.body.card.title)
     })
+    .then(collection => {
+      // push the current response to the survey
+      console.log(collection)
+      return collection.update({$push: {card: cardId}})
+    })
+    .then(() => res.sendStatus(204))
     // if an error occurs, pass it off to our error handler
     // the error handler needs the error message and the `res` object so that it
     // can send an error message back to the client

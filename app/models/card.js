@@ -9,9 +9,13 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  title: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Collection'
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Collection',
+    ref: 'User',
     required: true
   }
 }, {
