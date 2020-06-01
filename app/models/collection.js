@@ -1,21 +1,21 @@
 const mongoose = require('mongoose')
 
-const cardSchema = new mongoose.Schema({
-  term: {
+const collectionSchema = new mongoose.Schema({
+  title: {
     type: String,
     required: true
   },
-  definition: {
+  description: {
     type: String,
     required: true
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Collection',
+    ref: 'User',
     required: true
   }
 }, {
   timestamps: true
 })
 
-module.exports = mongoose.model('Card', cardSchema)
+module.exports = mongoose.model('Collection', collectionSchema)

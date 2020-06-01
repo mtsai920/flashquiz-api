@@ -10,8 +10,8 @@ curl "${API}${URL_PATH}" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
     "card": {
-      "title": "'"${TEXT}"'",
-      "description": "'"${DESCRIPTION}"'"
+      "term": "'"${TERM}"'",
+      "definition": "'"${DEFINITION}"'"
     }
   }'
 
