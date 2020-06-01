@@ -36,7 +36,7 @@ router.get('/cards', requireToken, (req, res, next) => {
       // `cards` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
       // apply `.toObject` to each one
-      return cards.map(example => example.toObject())
+      return cards.map(card => card.toObject())
     })
     // respond with status 200 and JSON of the cards
     .then(cards => res.status(200).json({ cards: cards }))
@@ -60,7 +60,6 @@ router.get('/cards/:id', requireToken, (req, res, next) => {
 // POST /examples
 router.post('/cards', requireToken, (req, res, next) => {
   // set owner of new example to be current user
-  console.log(req, 'req')
   req.body.card.owner = req.user.id
   let cardId = null
   Card.create(req.body.card)
@@ -68,16 +67,13 @@ router.post('/cards', requireToken, (req, res, next) => {
     .then(card => {
       // set cardId for later use
       cardId = card.id
-      console.log('cardId', cardId)
-      console.log(req.body)
-      return Collection.findById(req.body.card.title)
+      return Collection.findById(req.body.card.collectionId)
     })
     .then(collection => {
       // push the current response to the survey
-      console.log(collection)
       return collection.update({$push: {card: cardId}})
     })
-    .then(() => res.sendStatus(204))
+    .then(() => res.sendStatus(201))
     // if an error occurs, pass it off to our error handler
     // the error handler needs the error message and the `res` object so that it
     // can send an error message back to the client

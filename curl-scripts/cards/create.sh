@@ -12,7 +12,7 @@ curl "${API}${URL_PATH}" \
     "card": {
       "term": "'"${TERM}"'",
       "definition": "'"${DEFINITION}"'",
-      "title": "'"${TITLE}"'"
+      "collectionId": "'"${ID}"'"
     }
   }'
 
