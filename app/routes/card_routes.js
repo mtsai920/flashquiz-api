@@ -29,9 +29,9 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 // INDEX
-// GET /examples
-router.get('/cards', requireToken, (req, res, next) => {
-  Card.find({ collectionId: req.body.card.collectionId })
+// GET /examples // this id belongs to collection
+router.get('/card/:id', requireToken, (req, res, next) => {
+  Card.find({ collectionId: req.params.id })
     .then(cards => {
       // `cards` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -45,7 +45,7 @@ router.get('/cards', requireToken, (req, res, next) => {
 })
 
 // SHOW
-// GET /examples/5a7db6c74d55bc51bdf39793
+// GET /examples/5a7db6c74d55bc51bdf39793 // id belongs to card
 router.get('/cards/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
   Card.findById(req.params.id)
