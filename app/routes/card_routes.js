@@ -63,6 +63,9 @@ router.post('/cards', requireToken, (req, res, next) => {
   req.body.card.owner = req.user.id
   let cardId = null
   Card.create(req.body.card)
+    .then(card => {
+      res.status(201).json({ card: card.toObject() })
+    })
     // respond to succesful `create` with status 201 and JSON of new "card"
     .then(card => {
       // set cardId for later use
@@ -73,7 +76,6 @@ router.post('/cards', requireToken, (req, res, next) => {
       // push the current response to the survey
       return collection.update({$push: {card: cardId}})
     })
-    .then(() => res.sendStatus(201))
     // if an error occurs, pass it off to our error handler
     // the error handler needs the error message and the `res` object so that it
     // can send an error message back to the client
